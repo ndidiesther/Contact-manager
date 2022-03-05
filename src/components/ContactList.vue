@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div>
-      <div className="banner">
+      <div class="banner">
         <div>
           <h2>Contact Manager</h2>
           <p>This is a portfolio project to showcase knowledge of:</p>
@@ -18,22 +18,34 @@
           </div>
       
       </div>
-      <div v-for="post in posts" :key="post.id">
-        <b-button @click="getPosts()" v-b-toggle.collapse-1 variant="primary" > Name</b-button>
+      <!-- <div v-for="post in posts" :key="post.id">
+        <b-button  v-b-toggle.collapse-1 variant="primary" > Name</b-button>
         <b-collapse id="collapse-1" class="mt-2">
             <b-card>
                 <p class="card-text">Email{{post.email}} <br /> Phone {{post.phone}}</p>
             </b-card>
         </b-collapse>
-      </div>
-
+      </div> -->
+      <div v-for="post in posts" :key="post.id" class="accordion user_list" role="tablist">
+    <b-card no-body class="mb-1">
+      <b-card-header header-tag="header" class="p-1" role="tab">
+        <span class="btn_span" block v-b-toggle.accordion-1 variant="info">{{post.name}} <span>&#9660;</span></span>
+      </b-card-header>
+      <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+        <b-card-body>
+          <b-card-text> <b>Email:</b> {{post.email}}</b-card-text>
+          <b-card-text> <b>Phone: </b> {{ post.phone}}</b-card-text>
+        </b-card-body>
+      </b-collapse>
+    </b-card>
+  </div>
     </div>
-    <!-- <button @click="getPosts()" >Load Contact</button>
-    <h3 v-if="errorMsg">{{errorMsg}}</h3>
+    <!-- <button @click ="getPosts()" >Load Contact</button> -->
+    <!-- <h3 v-if="errorMsg">{{errorMsg}}</h3>
     <div v-for="post in posts" :key="post.id"> 
       <h3>{{post.id}}.{{post.name}}</h3>
-      <p>{{post.phone}}</p> -->
-    <!-- </div> -->
+      <p>{{post.phone}}</p> 
+    </div>  -->
 
    
   </div>
@@ -51,8 +63,7 @@ export default {
       errorMsg: '',
     }
   },
-  methods:{
-    getPosts(){
+    mounted(){
        axios.get('https://jsonplaceholder.typicode.com/users')
        .then((response) => {
           console.log(response.data)
@@ -63,7 +74,8 @@ export default {
          this.errorMsg = "Error Retrieving Data"
        })
     }
-  }
+  
+  
 }
 </script>
 
@@ -95,5 +107,28 @@ li {
     display: list-item;
     font-size: 18px;
 }
+
+.btn-info {
+    color: #000;
+    background-color: transparent;
+    border-color: transparent; 
+}
+.btn-info:hover {
+  background-color:transparent;
+  border-color:transparent;
+}
+
+.user_list {
+  padding-left: 20%;
+  padding-right: 20%;
+}
+.card-header {
+  background-color:transparent;
+  padding: 1.5rem 1rem !important;
+}
+.mb-1 {
+  margin-bottom: 1.2rem !important;
+}
+
 
 </style>
